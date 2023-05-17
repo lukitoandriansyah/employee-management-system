@@ -7,6 +7,8 @@ import com.emsprojectito.employeeservice.dto.EmployeeDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,5 +31,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         );
 
         return dto;
+    }
+
+    @Override
+    public EmployeeDto getEmployeeById(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        EmployeeDto employeeDto = new EmployeeDto();
+        if (employee.isPresent()){
+            employeeDto.setId(employee.get().getId());
+            employeeDto.setFirstName(employee.get().getFirstName());
+            employeeDto.setLastName(employee.get().getLastName());
+            employeeDto.setEmail(employee.get().getEmail());
+        }
+        return employeeDto;
     }
 }
