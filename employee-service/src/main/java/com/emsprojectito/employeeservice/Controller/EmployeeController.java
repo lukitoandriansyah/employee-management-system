@@ -2,6 +2,7 @@ package com.emsprojectito.employeeservice.Controller;
 
 import com.emsprojectito.employeeservice.Repository.EmployeeRepository;
 import com.emsprojectito.employeeservice.Service.EmployeeService;
+import com.emsprojectito.employeeservice.dto.ApiResponseDto;
 import com.emsprojectito.employeeservice.dto.EmployeeDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id){
+    public ResponseEntity<ApiResponseDto> getEmployeeById(@PathVariable Long id){
         return new ResponseEntity<>(employeeService.getEmployeeById(id), HttpStatus.OK);
     }
 }
