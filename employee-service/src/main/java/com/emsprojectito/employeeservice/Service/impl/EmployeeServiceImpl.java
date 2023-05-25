@@ -7,6 +7,7 @@ import com.emsprojectito.employeeservice.Service.EmployeeService;
 import com.emsprojectito.employeeservice.dto.ApiResponseDto;
 import com.emsprojectito.employeeservice.dto.DepartmentDto;
 import com.emsprojectito.employeeservice.dto.EmployeeDto;
+import com.emsprojectito.employeeservice.dto.OrganizationDto;
 import com.emsprojectito.employeeservice.mapper.EmployeeMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -48,10 +49,17 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .bodyToMono(DepartmentDto.class)
                 .block();
 
+        OrganizationDto organizationDto = webClient.get()
+                .uri("http://localhost:8085/api/organization/code/"+employee.getOrganizationCode())
+                .retrieve()
+                .bodyToMono(OrganizationDto.class)
+                .block();
+
         EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employee);
         ApiResponseDto apiResponseDto = new ApiResponseDto();
         apiResponseDto.setEmployee(employeeDto);
         apiResponseDto.setDepartment(dto);
+        apiResponseDto.setOrganizationDto(organizationDto);
         return apiResponseDto;
     }
 
